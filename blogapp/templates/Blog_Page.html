@@ -1,0 +1,13 @@
+{% extends 'Base.html' %}
+  {% block body %}
+  <div class="container mt-4">
+      <div class="card ">
+              <div class="card-body">
+              <h4>{{ blogs.blog_title }}</h4>
+                 <p> {{ blogs.blog_description|safe}}</p>
+                  <div class="fb-comments" data-href="https://developers.facebook.com/docs/plugins/comments#configurator" data-width="" data-numposts="2"></div>
+              </div>
+        </div>
+    </div>
+      </div>
+     {% endblock body %}

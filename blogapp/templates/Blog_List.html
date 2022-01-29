@@ -1,0 +1,44 @@
+{%extends 'Base.html' %}
+  {% block body %}
+  <div class="container mt-4"  >
+    <div class="row">
+      {% for blog in blogs %}
+
+        <div class="card col-5 m-3">
+              <div class="card-body ">
+
+              <h4>{{ blog.blog_title }}</h4>
+                 <p> {{ blog.blog_description|slice:30|safe}} </p>
+                  <a href="{% url 'blogapp:blog_page' blog.id %}" class="card-link">Continue reading</a>
+                  <a href="{% url 'blogapp:blog_update' blog.id %}" class="card-link">Update</a>
+                   <a href="{% url 'blogapp:blog_delete' blog.id %}" class="card-link text-danger">Delete</a>
+
+              </div>
+        </div>
+
+      {% endfor %}
+    </div>
+  </div>
+     {% endblock body %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{#    <div class="col m-2">#}
+{#       <div class="col-auto d-none d-lg-block">#}
+{#                    <img src="/static/{{blog.thumbnail}}" class="bd-placeholder-img" width="200" height="250" aria-label="Placeholder: Thumbnail">#}
+{#                    <title>Placeholder</title></img>#}
+{#                </div>#}
+{#        </div>#}

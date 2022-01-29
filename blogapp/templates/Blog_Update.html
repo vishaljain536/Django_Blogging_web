@@ -1,0 +1,61 @@
+{% extends 'Base.html' %}
+  {% block body %}
+
+      <div class="container mt-5">
+         <div class="card bg-light mx-auto">
+              <div class="card-header">
+                   Edit_Blog
+               </div>
+           <div class="card-body">
+
+               {% if messages %}
+                   {% for msg in messages %}
+                       <div class="alert alert-{{ msg.tags }}" role="alert">
+                       {{ msg }}
+                       </div>
+
+
+                   {% endfor %}
+
+
+               {% endif %}
+               <form action="" method="post">{% csrf_token %}
+                   <div class="form-group">
+                   <p>{{ form.blog_title.label }}</p>
+                   {{ form.blog_title }}
+                   </div>
+                    <div class="form-group">
+                   <p>{{ form.blog_description.label }}</p>
+                   {{ form.blog_description|safe }}
+                        {{ form.media }}
+                   </div>
+
+
+                   <div class="form-group">
+                       <p>Author</p>
+                       {{ form.author}}
+
+
+                   </div>
+                   <p>Categories</p>
+                   <div class="form-group">
+
+                   {{ form.categories}}
+                   </div>
+
+
+                     <div class="form-group">
+
+                   {{ form.published}}&nbsp; Published
+                   </div>
+                       <div class="form-group" >
+                      <input type="submit" value="Submit" class="btn btn-primary w-100">
+                   </div>
+
+
+
+               </form>
+      </div>
+         </div>
+      </div>
+     {% endblock body %}
