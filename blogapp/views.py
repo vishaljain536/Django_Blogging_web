@@ -1,14 +1,62 @@
 from django.shortcuts import render,redirect,HttpResponse
-from.Forms import BlogsForm
+from django.contrib.auth.models import User, auth
+from django.contrib.auth.decorators import login_required
+from.Forms import BlogsForm,SignUpForm
 from.models import Post
 from django.contrib import messages
-import uuid
 
 
 # Create your views here.
+def Login(request):
+    '''
+    Login page
+    '''
+    url="Login.html"
+    if request.method=="POST":
+          username=request.POST.get('username')
+          password=request.POST.get('password')
+          user=auth.authenticate(username=username,password=password)
+          if user is not None:
+              auth.login(request,user)
+              return redirect('blogapp:blog')
+          else:
+              messages.warning(request,"Not a valid user Pls singup")
+              return redirect('blogapp:login')
+
+    return render(request,url)
+
+
+def Logout(request):
+    '''
+    Logout
+    '''
+    auth.logout(request)
+    return redirect('blogapp:login')
+
+def Signup(request):
+    '''
+         Signup page
+    '''
+    url="Sign_Up.html"
+    form=SignUpForm()
+    if request.method=='POST':
+        form=form=SignUpForm(request.POST)
+        if form.is_valid:
+            form.save()
+            return redirect('blogapp:login')
+        else:
+            return redirect('blogapp:signup')
+
+    return render(request,url,{'form':form})
+
+
+
+
 def Index(request):
+   print(request.user)
    return render(request,"Index.html")
 
+@login_required(login_url='blogapp:login')
 def Blog(request):
    '''
      Blog Regitartion
@@ -25,7 +73,7 @@ def Blog(request):
           return render(request, "Blog.html")
    return render(request,"Blog.html",{'form':form})
 
-
+@login_required(login_url='blogapp:login')
 def Blog_List(request):
     blogs=Post.objects.all()
     return render(request,"Blog_List.html",{'blogs':blogs})
@@ -43,17 +91,19 @@ def Blog_List(request):
 #        print("Error:", e)
 #        return render(request, "Blog.html")
 
+@login_required(login_url='blogapp:login')
 def Blog_Page(request,id):
     blogs=Post.objects.get(id=int(id))
     return render(request,"Blog_Page.html",{'blogs':blogs})
 
+@login_required(login_url='blogapp:login')
 def Blog_Delete(request,id):
     blogs=Post.objects.get(id=int(id))
     blogs.delete()
     blogs = Post.objects.all()
     return render(request, "Blog_List.html", {'blogs': blogs})
 
-
+@login_required(login_url='blogapp:login')
 def Blog_Update(request,id):
    '''
      Blog  Update
